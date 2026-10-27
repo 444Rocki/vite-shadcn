@@ -21,16 +21,35 @@ export default function Login() {
   const [password, setPassword] = useState<string>("");
 
   const handleLogin = () => {
+
     useLoginUser(username, password)
       .then((response) => {
         const { data } = response;
         const firstName = data.firstName;
         setCookie("userData", JSON.stringify(data));
+
+       // console.log("Login data received:", Boolean(data));
+      //  console.log("Cookie saved:", Boolean(getCookie("userData")));
+
+      //  window.location.href = "/dashboard";
+
+         //const savedData = getCookie("userData");
+       // console.log("Cookie saved:", Boolean(savedData));
+       // console.log("Cookie contain valid JSON:", (() => {
+         // try {
+           // JSON.parse(savedData ?? "");
+           // return true;
+         // } catch {
+          // return false;
+         // }
+       // })());
+
         toast.add({
           title: "Login successful",
           description: `You have successfully logged in as ${firstName}`,
           type: "success",
         });
+        window.location.href = "/dashboard";
       })
       .catch((error) => {
         console.error(error);
@@ -90,7 +109,11 @@ export default function Login() {
 
           <CardContent>
 
-            <form className="space-y-5">
+            <form className="space-y-5" 
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}>
 
               <div className="space-y-2">
 
@@ -158,10 +181,16 @@ export default function Login() {
 
               </div>
 
+              <Link
+                to="/forgotpassword"
+                className="text-sm text-indigo-300 hover:text-indigo-200 margin-bottom-4 block text-right"
+              >
+                Forgot password?
+              </Link>
+
               <Button
 
                 type="submit"
-                onClick= {handleLogin}
 
                 className="h-11 w-full bg-gradient-to-r from-indigo-500 to-purple-600 font-semibold text-white hover:from-indigo-400 hover:to-purple-500"
 

@@ -15,12 +15,21 @@ export const clearLocalStorage = () => {
 };
 
 export const setCookie = (key: string, value: string) => {
-  document.cookie = `${key}=${value}`;
+  document.cookie = `${key}=${encodeURIComponent(value)}; path=/; SameSite=Lax`;
 };
 
 export const getCookie = (key: string) => {
-  return document.cookie
+  const cookie = document.cookie
     .split("; ")
     .find((row) => row.startsWith(`${key}=`))
-    ?.split("=")[1];
+    
+  if (!cookie) return undefined;
+
+  const value = cookie?.substring(key.length + 1);
+
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 };
