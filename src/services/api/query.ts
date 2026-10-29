@@ -1,6 +1,6 @@
 import { api } from ".";
 
-export const useGetUser = async () => {
+export const getUser = async () => {
   try {
     const response = await api.get("/auth/me");
     return response;

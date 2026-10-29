@@ -11,7 +11,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
 import { getCookie } from "@/services/storage";
-import { useGetUser, searchProducts } from "@/services/api/query";
+import { getUser, searchProducts } from "@/services/api/query";
 import { useDebounce } from "use-debounce";
 import type { ProductsProp } from "@/types";
 import { Search } from "@/components/shared/Search";
@@ -25,7 +25,7 @@ export const Dashboard = () => {
   const [value] = useDebounce(searchQuery, 1000);
 
   useEffect(() => {
-    useGetUser()
+    getUser()
       .then((response) => {
         console.log(response);
         setData(response.data);
